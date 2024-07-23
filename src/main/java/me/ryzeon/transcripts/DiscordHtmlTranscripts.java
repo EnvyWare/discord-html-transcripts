@@ -348,7 +348,7 @@ public class DiscordHtmlTranscripts {
 
         GuildChannel channel = messages.iterator().next().getChannel().asGuildMessageChannel();
 
-        Document document = Jsoup.parse(htmlTemplate, "UTF-8", "template.html");
+        var document = Jsoup.parse(htmlTemplate, "UTF-8", "template.html");
         document.outputSettings().indentAmount(0).prettyPrint(true);
         document.getElementsByClass("preamble__guild-icon").first().attr("src", channel.getGuild().getIconUrl()); // set guild icon
 
@@ -356,20 +356,15 @@ public class DiscordHtmlTranscripts {
         document.getElementById("guildname").text(channel.getGuild().getName()); // set guild name
         document.getElementById("ticketname").text("#" + channel.getName()); // set channel name
 
-        Element chatLog = document.getElementById("chatlog"); // chat log
-        for (Message message : messages.stream()
+        var chatLog = document.getElementById("chatlog");
+        for (var message : messages.stream()
                 .sorted(Comparator.comparing(ISnowflake::getTimeCreated))
                 .toList()) {
-
-            if (message.getAuthor().isBot()) {
-                continue;
-            }
             // create message group
-            Element messageGroup = document.createElement("div");
+            var messageGroup = document.createElement("div");
             messageGroup.addClass("chatlog__message-group");
 
-            // message reference
-            if (message.getReferencedMessage() != null) { // preguntar si es eso
+            if (message.getReferencedMessage() != null) {
                 handleMessageReferences(channel, document, message, messageGroup);
             }
 
@@ -402,8 +397,7 @@ public class DiscordHtmlTranscripts {
             authorElement.appendChild(authorAvatar);
             messageGroup.appendChild(authorElement);
 
-            // message content
-            Element content = document.createElement("div");
+            var content = document.createElement("div");
             content.addClass("chatlog__messages");
 
             content.appendChild(authorName);
@@ -415,7 +409,7 @@ public class DiscordHtmlTranscripts {
             }
 
             // timestamp
-            Element timestamp = document.createElement("span");
+            var timestamp = document.createElement("span");
             timestamp.addClass("chatlog__timestamp");
             timestamp
                     .text(message.getTimeCreated().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
