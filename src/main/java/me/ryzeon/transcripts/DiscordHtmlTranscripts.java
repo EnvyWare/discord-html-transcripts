@@ -382,7 +382,7 @@ public class DiscordHtmlTranscripts {
             authorName.addClass("chatlog__author-name");
 
             if (author != null) {
-                authorName.attr("title", Objects.requireNonNull(author.getGlobalName()));
+                authorName.attr("title", Objects.requireNonNull(author.getEffectiveName()));
                 authorName.text(author.getName());
                 authorName.attr("data-user-id", author.getId());
                 authorAvatar.attr("src", Objects.requireNonNull(author.getEffectiveAvatarUrl()));
